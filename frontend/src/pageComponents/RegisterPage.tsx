@@ -26,27 +26,41 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleRegister}>
-        <label htmlFor="uname">Enter Username</label>
-        <input
-          type="text"
-          id="uname"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <br />
-        <label htmlFor="pass">Enter Password</label>
-        <input
-          type="password"
-          id="pass"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+    
+    <div className="flex items-center justify-center mt-[50px] bg-gray-900 text-white">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6">Register</h1>
+        <form onSubmit={handleRegister} className="space-y-4">
+          <div>
+            <label htmlFor="uname" className="block text-sm font-medium mb-1">Enter Username</label>
+            <input
+              type="text"
+              id="uname"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Username"
+            />
+          </div>
+          <div>
+            <label htmlFor="pass" className="block text-sm font-medium mb-1">Enter Password</label>
+            <input
+              type="password"
+              id="pass"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Password"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

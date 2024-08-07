@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from models import db, Product, User , AdminUser
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
+from models import db, Product, User, AdminUser
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -35,11 +35,15 @@ def login():
     data = request.json
     user = User.query.filter_by(username=data['username']).first()
     if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=user.id, additional_claims={"is_admin": False})
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    return jsonify({"message": "Logged out successfully"}), 200 
 # --------------------------------------------------------------------------------------------
 
 @app.route('/admin/register', methods=['POST'])
@@ -48,7 +52,7 @@ def adminregister():
     username = data['username']
     email = data['email']
     password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    new_user = AdminUser(username=username , email=email , password=password )
+    new_user = AdminUser(username=username, email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message": "User registered successfully"}), 201
@@ -58,7 +62,7 @@ def adminlogin():
     data = request.json
     user = AdminUser.query.filter_by(username=data['username'], email=data['email']).first()
     if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=user.id, additional_claims={"is_admin": True})
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
@@ -83,6 +87,10 @@ def get_product(id):
 @app.route('/products', methods=['POST'])
 @jwt_required()
 def create_product():
+    claims = get_jwt()
+    if not claims['is_admin']:
+        return jsonify({"error": "Admin privileges required"}), 403
+
     data = request.json
     new_product = Product(
         title=data['title'],

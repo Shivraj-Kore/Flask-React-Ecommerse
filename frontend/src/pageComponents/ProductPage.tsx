@@ -39,22 +39,21 @@ const ProductPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Hello, this is the product page</h1>
-      {error && <p>{error}</p>}
-      <div>
-        <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              <h2>{product.title}</h2>
-              <p>{product.description}</p>
-              <p>Price: ${product.price}</p>
-            </li>
-          ))}
-        </ul>
-        {/* <button type="button">Delete Product</button> */}
+    <>
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-3xl font-bold mb-6">Hello, this is the Product Page</h1>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {products.map((product) => (
+          <div key={product.id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
+            <p className="mb-2">{product.description}</p>
+            <p className="font-bold">Price: ${product.price}</p>
+          </div>
+        ))}
       </div>
     </div>
+    </>
   );
 };
 

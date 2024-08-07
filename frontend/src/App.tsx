@@ -10,27 +10,29 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <>
-    
-      <ToastContainer/>
+    <div className="dark:bg-gray-900 dark:text-white min-h-screen">
+      <ToastContainer />
       <Router>
-        <div>
-          <nav>
-            <ul>
+        <div className="container mx-auto p-4">
+          <nav className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
+            <ul className="flex space-x-4 items-center">
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/" className="bg-[#121212] rounded p-1 hover:bg-[#212121]">Home</Link>
               </li>
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login" className="bg-[#121212] rounded p-1 hover:bg-[#212121]">Login</Link>
               </li>
               <li>
-                <Link to="/register">Register</Link>
+                <Link to="/register" className="bg-[#121212] rounded p-1 hover:bg-[#212121]">Register</Link>
               </li>
               <li>
-                <Link to="/adminlogin">Admin Login</Link>
+                <Link to="/adminlogin" className="bg-[#121212] rounded p-1 hover:bg-[#212121]">Admin Login</Link>
               </li>
               <li>
-                <Link to="/adminregister">Admin Register</Link>
+                <Link to="/adminregister" className="bg-[#121212] rounded p-1 hover:bg-[#212121]">Admin Register</Link>
+              </li>
+              <li>
+                <button onClick={logout} className="bg-red-500 text-white p-1 rounded hover:bg-red-600 lg:ml-[400px]">Logout</button>
               </li>
             </ul>
           </nav>
@@ -40,22 +42,27 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/products" element={<ProductPage />} />
-            <Route path="/adminproducts" element={<AddAndUpdateProductPage/>} />
-            <Route path="/adminlogin" element={<AdminLogin/>} />
-            <Route path="/adminregister" element={<AdminRegister/>} />
+            <Route path="/adminproducts" element={<AddAndUpdateProductPage />} />
+            <Route path="/adminlogin" element={<AdminLogin />} />
+            <Route path="/adminregister" element={<AdminRegister />} />
           </Routes>
         </div>
       </Router>
-    </>
+    </div>
   );
 }
 
 function Home() {
   return (
-    <div>
-      <h1>This is home</h1>
+    <div className="text-center py-8">
+      <h1 className="text-4xl font-bold">This is home</h1>
     </div>
   );
+}
+
+function logout() {
+  localStorage.removeItem('access_token');
+  window.location.href = '/login';
 }
 
 export default App;
