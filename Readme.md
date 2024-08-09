@@ -26,6 +26,7 @@ After this , **install** all the **Backend dependenciesas** follows:
 ```
 cd .\backend\
 pip install Flask , Flask-Bcrypt , Flask-JWT-Extended , Flask-Cors , Flask-SQLAlchemy
+python .\backendapi.py
 ```
 
 #### In a ***seperate Terminal*** again activate the virtual envoirnment :
